@@ -1,7 +1,6 @@
 from flask import Flask, request
 from filesystem import FileSystem
 app = Flask(__name__)
-import json
 
 fs = FileSystem()
 
@@ -14,7 +13,7 @@ def mkdir():
             return "Invalid directory name.", 400
         else:
             fs.mkdir(path_to_dir)
-            return ("Directory [" + path_to_dir + "]  was created."), 200
+            return ("Directory [" + path_to_dir + "]  was created."), 201
     except Exception as ex:
         return str(ex), 400
 
@@ -27,7 +26,7 @@ def create_bin_file():
     try:
         if (extension == "bin"):
             fs.createFile(path_to_file, file_content)
-            return "File [" + path_to_file + "] was created.", 200
+            return "File [" + path_to_file + "] was created.", 201
         else:
             return "Wrong file name format [" + path_to_file + "] (filename.bin)", 400
     except Exception as ex: 
@@ -42,7 +41,7 @@ def create_log_text_file():
     try:
         if (extension == "log"):
             fs.createFile(path_to_file, file_content)
-            return "File [" + path_to_file + "] was created.", 200
+            return "File [" + path_to_file + "] was created.", 201
         else:
             return "Wrong file name format [" + path_to_file + "] (filename.log)", 400
     except Exception as ex: 
@@ -55,7 +54,7 @@ def create_buffer_file():
     try:
         if (extension == "buf"):
             fs.createBufferFile(path_to_file)
-            return "File [" + path_to_file + "] was created.", 200
+            return "File [" + path_to_file + "] was created.", 201
         else:
             return "Wrong file name format [" + path_to_file + "] (filename.buf)", 400
     except Exception as ex:
@@ -72,8 +71,7 @@ def list():
         for p in res:
             dir_data = {"path": p}
             output.append(dir_data)
-        # return json.dumps(res), 200
-        return output
+        return output, 201
 
 @app.route('/directory/delete', methods=['DELETE'])
 def delete_directory():

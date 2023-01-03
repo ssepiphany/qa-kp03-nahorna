@@ -8,12 +8,6 @@ class FileSystem:
     logBinFileContents = collections.defaultdict(str)
     MAX_BUF_FILE_SIZE = 5
     buffContents = collections.defaultdict(list)
-    def __init__(self) -> None:
-        # self.paths = collections.defaultdict(list)
-        self.DIR_MAX_ELEMS = 5
-        # self.logBinFileContents = collections.defaultdict(str)
-        self.MAX_BUF_FILE_SIZE = 5
-        # self.buffContents = collections.defaultdict(list)
 
     def mkdir(self, path : str):
         added = self.add_elements_to_directory(path)
@@ -35,10 +29,10 @@ class FileSystem:
     def ls(self, path : str) -> List[str]:  
         return self.paths[path]
 
-    def moveDirectory(self, oldPath : str, newPath: str):
+    def moveDirectory(self, oldPath : str, newPath: str): 
         dirs = oldPath.split("/")
-        pathToDir = "/".join(dirs[0:-1])
-        if (dirs[-1] in self.paths[pathToDir]):
+        pathToDir = "/".join(dirs[0:-1]) 
+        if (dirs[-1] in self.paths[pathToDir]):   
             content = self.paths[oldPath]
             self.paths[pathToDir].remove(dirs[-1])
             del self.paths[oldPath]
