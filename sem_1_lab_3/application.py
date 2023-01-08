@@ -67,11 +67,10 @@ def list(path:str):
     if (len(res) == 0):
         return "Directory [" + path_to_dir + "] is empty or doesn't exist.", 404
     else: 
-        output = []
+        dir_data = ""
         for p in res:
-            dir_data = {"path": p}
-            output.append(dir_data)
-        return output, 201
+            dir_data += str(p) + ", "
+        return str(dir_data).strip(", "), 201
 
 @app.route('/directory/delete', methods=['DELETE'])
 def delete_directory():
@@ -182,7 +181,7 @@ def move_buffer_file():
 
 @app.route('/binaryfile/read/<string:path>', methods=['GET'])
 def read_bin_file(path: str):
-    path_to_file = "/" + "/".join(path.split(","))  #request.json['path']
+    path_to_file = "/" + "/".join(path.split(","))
     extension = str(path_to_file).split(".")[-1]
 
     if (extension == "bin"):
@@ -196,7 +195,6 @@ def read_bin_file(path: str):
 
 @app.route('/logtextfile/read/<string:path>', methods=['GET'])
 def read_log_text_file(path: str):
-    # path_to_file = request.json['path']
     path_to_file = "/" + "/".join(path.split(",")) 
     extension = str(path_to_file).split(".")[-1]
 
@@ -217,9 +215,8 @@ def append_line_to_log_text_file():
 
     if (extension == "log"):
         try:
-            content = " ".join(path_to_file)
             fs.appendLineToFile(path_to_file, new_line)
-            return "Line [" + content + "] was appended.", 200
+            return "Line [" + new_line + "] was appended.", 200
         except Exception as ex:
             return str(ex), 404
     else:
@@ -252,6 +249,3 @@ def consume_element_from_buffer_file():
             return str(ex), 400
     else:
         return "You can only consume element from buffer file.", 400
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')

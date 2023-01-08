@@ -116,7 +116,7 @@ def test_can_list_directory_contents():
 
     list_response = c.get('/directory/list/work') 
     assert response.status_code == 201
-    assert [{"path": "projects"}, {"path": "new"}]  == list_response.get_json()
+    assert "projects, new" == list_response.data.decode("utf-8")
 
 
 def test_can_append_line_to_log_text_file():
@@ -193,7 +193,8 @@ def test_can_delete_directory():
     assert delete_response.status_code == 200
 
     list_response = c.get('/directory/list/work')
-    assert "projects" not in list_response.get_json()
+    # assert "projects" not in list_response.get_json()
+    assert "projects" not in list_response.data.decode("utf-8")
 
     list_response_2 = c.get('/directory/list/work,projects')
     assert list_response_2.status_code == 404
@@ -398,7 +399,7 @@ def test_can_move_subdirectories_and_files():
     assert move_response.status_code == 200
 
     list_response = c.get('/directory/list/a,e,b') 
-    assert [{"path": "c"}, {"path": "file.log"}]  == list_response.get_json()
+    assert "c, file.log" == list_response.data.decode("utf-8")
 
     list_response_2 = c.get('/directory/list/a,e,b,c')
     assert "d" in list_response_2.data.decode("utf-8")
