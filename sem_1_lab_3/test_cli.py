@@ -1,6 +1,5 @@
 from click.testing import CliRunner
 from cli import *
-import pytest
 
 runner = CliRunner()
 
@@ -87,12 +86,6 @@ def test_can_move_directory():
     assert "Directory was moved from /my to /user/my" in response.output
 
 
-def test_can_delete_directory():
-    response = runner.invoke(delete_directory, "/user/my")
-    assert response.exit_code == 0
-    assert "Directory [/user/my] was deleted." in response.output
-
-
 def test_can_delete_log_text_file():
     response = runner.invoke(delete_log_text_file, "/user/my/hello/file.log")
     assert response.exit_code == 0
@@ -109,3 +102,9 @@ def test_can_delete_buffer_file():
     response = runner.invoke(delete_buffer_file, "/user/my/hello/file.buf")
     assert response.exit_code == 0
     assert "File [/user/my/hello/file.buf] was deleted." in response.output
+
+
+def test_can_delete_directory():
+    response = runner.invoke(delete_directory, "/user/my")
+    assert response.exit_code == 0
+    assert "Directory [/user/my] was deleted." in response.output

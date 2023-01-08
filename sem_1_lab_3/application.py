@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request
 from file_system import FileSystem
 app = Flask(__name__)
@@ -249,3 +250,7 @@ def consume_element_from_buffer_file():
             return str(ex), 400
     else:
         return "You can only consume element from buffer file.", 400
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
